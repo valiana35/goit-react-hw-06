@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import ContactForm from './components/contactForm/ContactForm';
+import SearchBox from './components/searchBox/SearchBox';
+import ContactList from './components/contactList/ContactList';
 import './App.css'
+import { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts);
+  console.log(contacts);
 
-  return (
-    <>
+  const handleAddContact = (contact) => {
+    const action = {
+      type: 'contacts/addContact',
+      payload: contact,
+    };
+    dispatch(action);
+  }
+
+  const handleDeleteContact = (id) => {
+    const action = {
+      type: 'contacts/deleteContact',
+      payload: id,
+    };
+    dispatch(action);
+  }
+
+  const [searchValue, setsearchValue] = useState("");
+
+  return (  
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1 className='title'>Phonebook</h1>
+        <ContactForm onAdd = {handleAddContact} />
+        <SearchBox value={searchValue} onSearch={setsearchValue}/>
+        <ContactList onDelete={handleDeleteContact}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  );
 }
 
 export default App

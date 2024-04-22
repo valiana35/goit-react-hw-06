@@ -10,16 +10,24 @@ const initialState = {
 };
 
 const rootReduser = (state = initialState, action) => {
-    switch (action.type) {
-        case 'contacts/addContact':
+  switch (action.type) {
+    case "contacts/addContact":
+      return {
+        ...state,
+        contacts: [...state.contacts, action.payload],
+      };
 
-            return {
-                contacts: [...state.contacts, action.payload]
-            };
+    case "contacts/deleteContact":
+      return {
+        ...state,
+        contacts: state.contacts.filter(
+          (contacts) => contacts.id !== action.payload
+        ),
+      };
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 };
 
 export const store = configureStore({

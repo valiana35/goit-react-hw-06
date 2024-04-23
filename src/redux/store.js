@@ -1,35 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { contactReducer } from "./reducers";
 
-const initialState = {
-  contacts: {
-    items: [],
-  },
-  filters: {
-    name: "",
-  },
-};
+const rootReduser = combineReducers({
+  contacts: contactReducer,
+});
 
-const rootReduser = (state = initialState, action) => {
-  switch (action.type) {
-    case "contacts/addContact":
-      return {
-        ...state,
-        contacts: [...state.contacts, action.payload],
-      };
-
-    case "contacts/deleteContact":
-      return {
-        ...state,
-        contacts: state.contacts.filter(
-          (contacts) => contacts.id !== action.payload
-        ),
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const store = configureStore({
+const store = configureStore({
   reducer: rootReduser,
 });
+
+export default store;

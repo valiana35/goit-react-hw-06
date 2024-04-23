@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import * as Yup from "yup";
 import css from './ContactForm.module.css';
 import { useDispatch } from 'react-redux';
+import { addNewContact } from '../../redux/actions';
 
 const FeedBackSchema = Yup.object().shape({
     name: Yup.string().trim().min(3, "Too short!").max(50, "Too long!").required("Required"),
@@ -21,18 +22,14 @@ const ContactForm = () => {
     const nameFieldId = useId();
     const numberField = useId();
 
-    const handleSubmit = (values, actions, evt) => {
-        evt.preventDefault();
+    const handleSubmit = (values, actions) => {
         const newContact = {
             ...values,
             id: nanoid(),
             name: values.name.trim(),
             number: values.number
         };
-        dispatch({
-            type: "contacts/addContact",
-            payload: newContact,
-          })
+        dispatch(addNewContact(newContact))
         actions.resetForm();
     };
 

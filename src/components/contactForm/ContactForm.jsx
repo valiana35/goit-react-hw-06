@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
-import { nanoid } from 'nanoid';
 import * as Yup from "yup";
 import css from './ContactForm.module.css';
 import { useDispatch } from 'react-redux';
@@ -16,20 +15,17 @@ const initialContacts = {
     number: "",
 };
 
-
 const ContactForm = () => {
     const dispatch = useDispatch();
     const nameFieldId = useId();
-    const numberField = useId();
+    const numberFieldId = useId();
 
     const handleSubmit = (values, actions) => {
         const newContact = {
-            ...values,
-            id: nanoid(),
             name: values.name.trim(),
-            number: values.number
+            number: values.number,
         };
-        dispatch(addContact(newContact))
+        dispatch(addContact(newContact));
         actions.resetForm();
     };
 
@@ -46,8 +42,8 @@ const ContactForm = () => {
                     <ErrorMessage name="userName" as="span" />
                 </div>
                 <div className={css.formItem}>
-                    <label htmlFor={numberField}>Number</label>
-                    <Field className={css.input} type="string" name="number" id={numberField} />
+                    <label htmlFor={numberFieldId}>Number</label>
+                    <Field className={css.input} type="string" name="number" id={numberFieldId} />
                     <ErrorMessage name="number" as="span" />
                 </div>
                 <button className={css.formBtn} type="submit">Add contact</button>

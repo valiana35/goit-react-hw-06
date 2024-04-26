@@ -18,9 +18,4 @@ export const store = configureStore({
   },
 });
 
-const clearLocalStorage = () => {
-  persistor.purge();
-}
-
 export const persistor = persistStore(store);
-clearLocalStorage();
